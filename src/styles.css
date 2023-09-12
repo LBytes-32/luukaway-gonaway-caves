@@ -1,0 +1,13 @@
+.tile {
+    background-color : gray;
+    width: 33.33333%;
+    height: 33.33333%;
+}
+
+.map {
+    display: flex;
+    flex-wrap: wrap;
+    width:   600px;
+    height:  600px;
+}
+
