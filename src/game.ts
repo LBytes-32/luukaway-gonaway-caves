@@ -1,5 +1,5 @@
 import { Map } from "./map"
-import { Dom, Common } from "./utility"
+import { Dom } from "./utility"
 
 
 
@@ -47,9 +47,9 @@ export class Game {
         }
         
         for (let i = 0; i < 25; i++) {
-            let r = Common.randint(0, 255)
-            let g = Common.randint(0, 255)
-            let b = Common.randint(0, 255)
+            let r = Math.floor((i / 30 * 255))
+            let g = Math.floor((i / 30 * 255))
+            let b = Math.floor((i / 30 * 255))
             this.map.setTileTexture(i, `rgb(${r}, ${g}, ${b})`)
         }
         
