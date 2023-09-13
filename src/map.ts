@@ -1,12 +1,10 @@
 import { Dom } from "./utility"
-import "./styles.css"
 import { GameState } from "./game"
-
+import "./styles.css"
 
 type Tile = {
     element: HTMLDivElement
 }
-
 
 export class Map {
     element : HTMLDivElement
@@ -23,6 +21,7 @@ export class Map {
             this.tiles.push({
                 element: Dom.div(this.element, 'tile')
             })
+            this.tiles[i].element.textContent = `${i}`
         }
     }
     
@@ -32,23 +31,39 @@ export class Map {
     
     update(state: GameState) {
         let speed = 4
-        let resetDistance = 120
+        let resetRadius = 120
         
         if (state.keys.left)  this.scroll.x += speed
         if (state.keys.right) this.scroll.x -= speed
         if (state.keys.up)    this.scroll.y += speed
         if (state.keys.down)  this.scroll.y -= speed
         
-        if (Math.abs(this.scroll.x) > resetDistance) {
-            this.scroll.x = resetDistance * -(Math.sign(this.scroll.x))
+        if (this.scroll.x < -resetRadius) {
+            this.scroll.x = resetRadius
+            this.shiftTiles('Left')
         }
         
-        if (Math.abs(this.scroll.y) > resetDistance) {
-            this.scroll.y = resetDistance * -(Math.sign(this.scroll.y))
+        if (this.scroll.x > resetRadius) {
+            this.scroll.x = -resetRadius
+            this.shiftTiles('Right')
+        }
+        
+        if (this.scroll.y < -resetRadius) {
+            this.scroll.y = resetRadius
+            this.shiftTiles('Left')
+        }
+        
+        if (this.scroll.y > resetRadius) {
+            this.scroll.y = -resetRadius
+            this.shiftTiles('Top')
         }
         
         this.element.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size) / 2)`
         this.element.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size) / 2)`
+    }
+    
+    private shiftTiles(side: 'Top' | 'Bottom' | 'Left' | 'Right'): void {
+        Dom.swap(this.tiles[0].element, this.tiles[24].element)
     }
 }
 

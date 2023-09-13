@@ -8,6 +8,13 @@ html {
 .tile {
     width  : calc(100% / var(--tile-count));
     height : calc(100% / var(--tile-count));
+    font-size: 36px;
+    color: white;
+    text-shadow: -1px 1px 0 #000,
+                  1px 1px 0 #000,
+                  1px -1px 0 #000,
+                 -1px -1px 0 #000;
+    font-weight: bolder;
 }
 
 .map {
@@ -48,7 +55,5 @@ html {
     
                 /* top = 45% - (height / 2) */
     top          : calc(50% - (var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2) / 2);
-    
-    
 }
 

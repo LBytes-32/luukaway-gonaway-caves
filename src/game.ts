@@ -28,7 +28,7 @@ export class Game {
     
     constructor(fps: number) {
         this.map = new Map()
-        this.border = Dom.div(document.body, 'border')
+        //this.border = Dom.div(document.body, 'border')
         
         this.state = {
             keys: {
