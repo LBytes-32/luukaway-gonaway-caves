@@ -16,7 +16,7 @@ export class Map {
     constructor() {
         this.element = Dom.div(document.body, 'map')
         this.tiles = []
-        this.scroll = {x: 20, y: 20}
+        this.scroll = {x: 0, y: 0}
         
         // Initialize the array of tiles
         for (let i=0; i<25; i++) {
@@ -32,11 +32,20 @@ export class Map {
     
     update(state: GameState) {
         let speed = 4
+        let resetDistance = 120
         
         if (state.keys.left)  this.scroll.x += speed
         if (state.keys.right) this.scroll.x -= speed
         if (state.keys.up)    this.scroll.y += speed
         if (state.keys.down)  this.scroll.y -= speed
+        
+        if (Math.abs(this.scroll.x) > resetDistance) {
+            this.scroll.x = resetDistance * -(Math.sign(this.scroll.x))
+        }
+        
+        if (Math.abs(this.scroll.y) > resetDistance) {
+            this.scroll.y = resetDistance * -(Math.sign(this.scroll.y))
+        }
         
         this.element.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size) / 2)`
         this.element.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size) / 2)`
