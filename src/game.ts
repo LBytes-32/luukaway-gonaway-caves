@@ -1,5 +1,5 @@
 import { Map } from "./map"
-import { Utility } from "./utility"
+import { Dom, Utility } from "./utility"
 
 
 
@@ -15,11 +15,20 @@ export interface GameState {
 
 
 export class Game {
-    map   : Map
-    state : GameState
+    map    : Map
+    state  : GameState
+    border : HTMLDivElement
+    
+    framestate : {
+        now      : number
+        before   : number
+        interval : number
+        delta    : number
+    }
     
     constructor(fps: number) {
         this.map = new Map()
+        this.border = Dom.div(document.body, 'border')
         
         this.state = {
             keys: {
@@ -30,7 +39,14 @@ export class Game {
             }
         }
         
-        for (let i = 0; i < 9; i++) {
+        this.framestate = {
+            now      : Date.now(),
+            before   : Date.now(),
+            interval : 1000 / fps,
+            delta    : 0
+        }
+        
+        for (let i = 0; i < 25; i++) {
             let r = Utility.randint(0, 255)
             let g = Utility.randint(0, 255)
             let b = Utility.randint(0, 255)
@@ -40,26 +56,25 @@ export class Game {
         document.addEventListener('keydown', event => this.updateKeyCapture(event.key, true))
         document.addEventListener('keyup', event => this.updateKeyCapture(event.key, false))
         
-        let frame = {
-            now      : Date.now(),
-            before   : Date.now(),
-            interval : 1000 / fps,
-            delta    : 0
-        }
-        
         // Credit to elundmark for requestAnimationFrame optimization.
         // https://gist.github.com/elundmark/38d3596a883521cb24f5
         let update = () => {
             requestAnimationFrame(update)
+            let {now, before, interval, delta} = this.framestate
             
-            frame.now = Date.now()
-            frame.delta = frame.now - frame.before
+            // Capture the change in time
+            now = Date.now()
+            delta = now - before
             
-            if (frame.delta > frame.interval) {
-                
+            // Execute game updates if (change in time) > (interval).
+            if (delta > interval) {
                 this.map.update(this.state)
-                frame.before = frame.now - (frame.delta % frame.interval)
+                
+                // Capture the old time
+                before = now - (delta % interval)
             }
+            
+            this.framestate = {now, before, interval, delta}
         }
         requestAnimationFrame(update)
     }
@@ -67,7 +82,6 @@ export class Game {
     
     
     private updateKeyCapture(key: string, flag: boolean): void {
-        
         
         switch (key) {
             case 'ArrowUp':

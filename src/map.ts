@@ -19,7 +19,7 @@ export class Map {
         this.scroll = {x: 0, y: 0}
         
         // Initialize the array of tiles
-        for (let i=0; i<9; i++) {
+        for (let i=0; i<25; i++) {
             this.tiles.push({
                 element: Dom.div(this.element, 'tile')
             })
