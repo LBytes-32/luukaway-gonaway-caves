@@ -16,7 +16,7 @@ export class Map {
     constructor() {
         this.element = Dom.div(document.body, 'map')
         this.tiles = []
-        this.scroll = {x: 0, y: 0}
+        this.scroll = {x: 20, y: 20}
         
         // Initialize the array of tiles
         for (let i=0; i<25; i++) {
@@ -38,8 +38,8 @@ export class Map {
         if (state.keys.up)    this.scroll.y += speed
         if (state.keys.down)  this.scroll.y -= speed
         
-        this.element.style.left = `${this.scroll.x}px`
-        this.element.style.top = `${this.scroll.y}px`
+        this.element.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size) / 2)`
+        this.element.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size) / 2)`
     }
 }
 

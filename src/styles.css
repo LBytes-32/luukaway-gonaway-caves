@@ -1,13 +1,13 @@
 
 html {
-    --map-size    : 800px;
+    --map-size    : 1200px;
     --tile-count  : 5;
     --map-padding : 20px;
 }
 
 .tile {
-    width  : calc(100% / 5);
-    height : calc(100% / 5);
+    width  : calc(100% / var(--tile-count));
+    height : calc(100% / var(--tile-count));
 }
 
 .map {
@@ -21,6 +21,7 @@ html {
 
 .border {
     position     : absolute;
+
     border-color : black;
     box-sizing   : border-box;  /*/ The border must be inward, other than outward. /*/
     border       : solid;
@@ -31,15 +32,23 @@ html {
      |   |     - The empty space must be able to show AT LEAST (n - 1) TILES!
      |   |     - The border width must be able to HIDE 1 FULL TILE!
      |   |     - The element's width and height must take into account (2*border size) (Since the border goes inward)
-     |   |   
-     |   |           Size of single tile     |  map_width / tile_count + padding
-     |   |           Width of (n - 1) tiles  |  map_width - size_of_single_tile
-     |   |           Width of element        |  (Width of n - 1 tiles) + (2*border_width)
       \*/  
     
+                /* border_width = (map_size / tile_count) + map_padding */
     border-width : calc(var(--map-size) / var(--tile-count) + var(--map-padding));
+    
+                /* width = (map_size - border_width) + (border_width * 2) */
     width        : calc(var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2);
+    
+                /* height = (map_size - border-width) + (border_width * 2) */
     height       : calc(var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2);
+    
+                /* left = 50% - (width / 2) */
+    left         : calc(50% - (var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2) / 2);
+    
+                /* top = 45% - (height / 2) */
+    top          : calc(50% - (var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2) / 2);
+    
     
 }
 

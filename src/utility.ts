@@ -1,6 +1,6 @@
 import './styles.css'
 
-export namespace Utility {
+export namespace Common {
     export function randint(lower: number, upper: number): number {
         return Math.floor(Math.random()*(upper-lower) + lower)
     }
