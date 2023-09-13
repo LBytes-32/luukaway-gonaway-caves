@@ -2,4 +2,4 @@ import { Game } from "./game"
 
 
 
-new Game()
+new Game(60)
