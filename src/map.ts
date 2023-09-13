@@ -33,10 +33,10 @@ export class Map {
     update(state: GameState) {
         let speed = 4
         
-        if (state.keys.left)  this.scroll.x -= speed
-        if (state.keys.right) this.scroll.x += speed
-        if (state.keys.up)    this.scroll.y -= speed
-        if (state.keys.down)  this.scroll.y += speed
+        if (state.keys.left)  this.scroll.x += speed
+        if (state.keys.right) this.scroll.x -= speed
+        if (state.keys.up)    this.scroll.y += speed
+        if (state.keys.down)  this.scroll.y -= speed
         
         this.element.style.left = `${this.scroll.x}px`
         this.element.style.top = `${this.scroll.y}px`

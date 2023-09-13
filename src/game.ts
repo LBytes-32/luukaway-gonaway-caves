@@ -40,10 +40,26 @@ export class Game {
         document.addEventListener('keydown', event => this.updateKeyCapture(event.key, true))
         document.addEventListener('keyup', event => this.updateKeyCapture(event.key, false))
         
+        let frame = {
+            now      : Date.now(),
+            before   : Date.now(),
+            interval : 1000 / fps,
+            delta    : 0
+        }
+        
+        // Credit to elundmark for requestAnimationFrame optimization.
+        // https://gist.github.com/elundmark/38d3596a883521cb24f5
         let update = () => {
-            this.map.update(this.state)
+            requestAnimationFrame(update)
             
-            setTimeout(() => requestAnimationFrame(update), 1000 / fps)
+            frame.now = Date.now()
+            frame.delta = frame.now - frame.before
+            
+            if (frame.delta > frame.interval) {
+                
+                this.map.update(this.state)
+                frame.before = frame.now - (frame.delta % frame.interval)
+            }
         }
         requestAnimationFrame(update)
     }
@@ -55,18 +71,22 @@ export class Game {
         
         switch (key) {
             case 'ArrowUp':
+            case 'w':
                 this.state.keys.up = flag
                 break
                 
             case 'ArrowDown':
+            case 's':
                 this.state.keys.down = flag
                 break
-                
+            
             case 'ArrowLeft':
+            case 'a':
                 this.state.keys.left = flag
                 break
-                
+            
             case 'ArrowRight':
+            case 'd':
                 this.state.keys.right = flag
                 break
         }
