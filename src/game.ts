@@ -32,18 +32,22 @@ export class Game {
             }
         }
         
+        document.addEventListener('keydown', event => this.keyCapture(event.key, true))
+        document.addEventListener('keyup', event => this.keyCapture(event.key, false))
         
-        this.toggleBorder()
-        
-        document.addEventListener('keydown', event => this.updateKeyCapture(event.key, true))
-        document.addEventListener('keyup', event => this.updateKeyCapture(event.key, false))
         this.createGameLoop(fps)
+        this.createBorderToggle()
     }
     
     
     
+    private update() {
+        this.map.update(this.state)
+    }
     
-    private toggleBorder() {
+    
+    
+    private createBorderToggle() {
         let toggled = false
         let button = Dom.div(this.border, 'button')
         button.textContent = 'Toggle Border'
@@ -56,14 +60,8 @@ export class Game {
             else
                 this.border.style.borderColor = 'rgba(0, 0, 0, 1)'
         })
-        
-
     }
     
-    
-    private update() {
-        this.map.update(this.state)
-    }
     
     
     private createGameLoop(fps: number) {
@@ -96,31 +94,25 @@ export class Game {
     
     
     
-    private updateKeyCapture(key: string, flag: boolean): void {
+    private keyCapture(key: string, flag: boolean): void {
         
         switch (key) {
-            case 'ArrowUp':
-            case 'w':
+            case 'ArrowUp': case 'w':
                 this.state.keys.up = flag
                 break
                 
-            case 'ArrowDown':
-            case 's':
+            case 'ArrowDown': case 's':
                 this.state.keys.down = flag
                 break
             
-            case 'ArrowLeft':
-            case 'a':
+            case 'ArrowLeft': case 'a':
                 this.state.keys.left = flag
                 break
             
-            case 'ArrowRight':
-            case 'd':
+            case 'ArrowRight': case 'd':
                 this.state.keys.right = flag
                 break
-        }
-        
+        }   
     }
-    
 }
 
