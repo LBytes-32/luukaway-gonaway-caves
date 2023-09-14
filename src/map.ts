@@ -17,7 +17,14 @@ export class Map {
             
             for (let t=0; t < 5; t++) {
                 let tile = Dom.div(strip, 'tile')
-                tile.textContent = `${i+t*5}`
+                
+                // Temporary tile graphics
+                let id = i+t*5
+                let r = Math.floor((id / 30 * 255))
+                let g = Math.floor((id / 30 * 255))
+                let b = Math.floor((id / 30 * 255))
+                tile.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+                tile.textContent = `${id}`
             }
         }
     }
@@ -66,8 +73,10 @@ export class Map {
     
     
     update(state: GameState) {
-        let speed = 4
-        let resetRadius = 120
+        let speed = 2
+        
+        // Radius = Size of 1 tile = (map_size / tile_count / 2)
+        let resetRadius = (400 / 5 / 2)
         
         if (state.keys.left)  this.scroll.x += speed
         if (state.keys.right) this.scroll.x -= speed
