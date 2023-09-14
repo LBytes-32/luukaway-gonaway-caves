@@ -131,9 +131,9 @@ export class Map {
                 this.shiftTiles('Up')
         }
         
-        this.scroll.fun += 1
-        this.scroll.xv = Math.sin(this.scroll.fun / 100) * 10
-        this.scroll.yv = Math.cos(this.scroll.fun / 100) * 10
+        this.scroll.fun += 10
+        this.scroll.xv = Math.sin(this.scroll.fun / 100) * 2
+        this.scroll.yv = Math.cos(this.scroll.fun / 100) * 2
     }
     
     
