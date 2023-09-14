@@ -6,11 +6,29 @@ import "./styles.css"
 
 export class Map {
     container : HTMLDivElement
-    scroll    : {x: number, y: number}
+    
+    scroll: {
+        x       : number,
+        y       : number,
+        xv      : number,
+        yv      : number,
+        bounds  : number
+        capture : {x: number, y: number}
+        fun     : number
+    }
     
     constructor() {
         this.container = Dom.div(document.body, 'map')
-        this.scroll = {x: 0, y: 0}
+        
+        this.scroll = {
+            x       : 0,
+            y       : 0,
+            xv      : 0,
+            yv      : 0,
+            bounds  : (400 / 5 / 2),  // bounds = Size of 1 tile = (map_size / tile_count / 2)
+            capture : {x: 0, y: 0},
+            fun     : 0
+        }
         
         for (let i=0; i < 5; i++) {
             var strip = Dom.div(this.container, 'tile-strip')
@@ -52,7 +70,7 @@ export class Map {
         
     }
     
-    scrolledBeyondRadius(dir: 'Up' | 'Down' | 'Left' | 'Right', radius: number): boolean {
+    scrolledBeyondRadius(dir: 'Up' | 'Down' | 'Left' | 'Right'): boolean {
         
         let distance = {
             horizontal : Math.abs(this.scroll.x),
@@ -61,10 +79,10 @@ export class Map {
         
         if (this.scrolledInDir(dir)) {
             if (dir == 'Left' || dir == 'Right') 
-                return distance.horizontal > radius
+                return distance.horizontal > this.scroll.bounds
             
             if (dir == 'Up' || dir == 'Down') 
-                return distance.vertical > radius
+                return distance.vertical > this.scroll.bounds
         }
         
         return false
@@ -78,37 +96,47 @@ export class Map {
         // Radius = Size of 1 tile = (map_size / tile_count / 2)
         let resetRadius = (400 / 5 / 2)
         
-        if (state.keys.left)  this.scroll.x += speed
-        if (state.keys.right) this.scroll.x -= speed
-        if (state.keys.up)    this.scroll.y += speed
-        if (state.keys.down)  this.scroll.y -= speed
+        if (state.keys.left)  this.scroll.xv =  speed
+        if (state.keys.right) this.scroll.xv = -speed
+        if (state.keys.up)    this.scroll.yv =  speed
+        if (state.keys.down)  this.scroll.yv = -speed
         
-        if (this.scrolledBeyondRadius('Left', resetRadius)) {
-            // TODO: fix choppy movements.
-            //   - Do not use conditional logic to reset scroll position.
-            //   - Use a mathematical expression instead. (Possibly in a function called updatePosition)
-            this.scroll.x = resetRadius
-            this.shiftTiles('Left')
-        }
+        this.scrollUpdate()
         
-        if (this.scrolledBeyondRadius('Right', resetRadius)) {
-            this.scroll.x = -resetRadius
-            this.shiftTiles('Right')
-        }
-        
-        if (this.scrolledBeyondRadius('Down', resetRadius)) {
-            this.scroll.y = -resetRadius
-            this.shiftTiles('Down')
-        }
-        
-        if (this.scrolledBeyondRadius('Up', resetRadius)) {
-            this.scroll.y = resetRadius
-            this.shiftTiles('Up')
-        }
-        
-        this.container.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size) / 2)`
-        this.container.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size) / 2)`
+        this.container.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size))`
+        this.container.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size))`
     }
+    
+    
+    
+    private scrollUpdate() {
+        
+        this.scroll.capture.x = this.scroll.x
+        this.scroll.capture.y = this.scroll.y
+        
+        this.scroll.x = (this.scroll.x + Math.round(this.scroll.xv) + this.scroll.bounds + 400/2) % (this.scroll.bounds*2) - (this.scroll.bounds - 400/2)
+        this.scroll.y = (this.scroll.y + Math.round(this.scroll.yv) + this.scroll.bounds + 400/2) % (this.scroll.bounds*2) - (this.scroll.bounds - 400/2)
+        
+        if (this.scroll.x - this.scroll.capture.x != Math.round(this.scroll.xv)) {
+            if (this.scroll.x < this.scroll.capture.x)
+                this.shiftTiles('Right')
+            else
+                this.shiftTiles('Left')
+        }
+        
+        if (this.scroll.y - this.scroll.capture.y != Math.round(this.scroll.yv)) {
+            if (this.scroll.y < this.scroll.capture.y)
+                this.shiftTiles('Down')
+            else
+                this.shiftTiles('Up')
+        }
+        
+        this.scroll.fun += 1
+        this.scroll.xv = Math.sin(this.scroll.fun / 100) * 10
+        this.scroll.yv = Math.cos(this.scroll.fun / 100) * 10
+    }
+    
+    
     
     private shiftTiles(side: 'Up' | 'Down' | 'Left' | 'Right'): void {
         

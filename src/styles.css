@@ -2,7 +2,7 @@
 html {
     --map-size    : 400px;
     --tile-count  : 5;
-    --map-padding : 0px;
+    --map-padding : 10px;
 }
 
 .button {
@@ -56,6 +56,7 @@ html {
     border-color : black;
     box-sizing   : border-box;  /*/ The border must be inward, other than outward. /*/
     border       : solid;
+    border-radius : 10px;
     z-index      : 999;
     
       /*\
