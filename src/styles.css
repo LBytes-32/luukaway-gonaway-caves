@@ -6,7 +6,7 @@ html {
 }
 
 .tile {
-    width  : calc(100% / var(--tile-count));
+    width  : 100%;
     height : calc(100% / var(--tile-count));
     font-size: 36px;
     color: white;
@@ -24,6 +24,12 @@ html {
     width     : var(--map-size);
     height    : var(--map-size);
     z-index   : 1;
+}
+
+.tile-strip {
+    width  : calc(100% / var(--tile-count));
+    display: flex;
+    flex-direction: column;
 }
 
 .border {

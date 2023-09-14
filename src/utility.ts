@@ -4,16 +4,17 @@ export namespace Common {
     export function randint(lower: number, upper: number): number {
         return Math.floor(Math.random()*(upper-lower) + lower)
     }
-    
-
 }
 
 export namespace Dom {
     
-    export function div(parent: HTMLElement, classname?: string): HTMLDivElement {
+    export function div(parent: HTMLElement | null, classname?: string): HTMLDivElement {
         let div = document.createElement('div')
         div.classList.add(classname!)
-        parent.appendChild(div)
+        
+        if (parent != null)
+            parent!.appendChild(div)
+        
         return div
     }
     
@@ -27,6 +28,17 @@ export namespace Dom {
             parent.append(element1)
         else
             parent.insertBefore(element1, element2Neighbor)
+    }
+    
+    export function shiftChildren(parent: HTMLDivElement, direction: 'Forward' | 'Backward' = 'Forward'): void {
+        switch (direction) {
+            case 'Forward':
+                parent.insertBefore(parent.lastChild!, parent.firstChild!)
+                break
+                
+            case 'Backward':
+                parent.appendChild(parent.firstChild!)
+        }
     }
 }
 
