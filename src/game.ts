@@ -22,7 +22,7 @@ export class Game {
     
     constructor(fps: number) {
         this.map = new Map()
-        this.border = Dom.div(document.body, 'border')
+        this.border = Dom.createDivChild(document.body, {classname: 'border'})
         
         this.state = {
             keys: {
@@ -51,7 +51,7 @@ export class Game {
     
     private createBorderToggle() {
         let toggled = false
-        let button = Dom.div(this.border, 'button')
+        let button = Dom.createDivChild(this.border, {classname: 'button'})
         button.textContent = 'Toggle Border'
         
         button.addEventListener('click', () => {
@@ -90,8 +90,8 @@ export class Game {
                 // Capture the old time
                 before = now - (delta % interval)
             }
-            
         }
+        
         requestAnimationFrame(update)
     }
     

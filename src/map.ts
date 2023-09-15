@@ -1,11 +1,19 @@
 import { Dom } from "./utility"
 import { GameState } from "./game"
 import "./styles.css"
+import { TileStrip } from "./tiles"
 
 
 
 export class Map {
     container : HTMLDivElement
+    padding   : number
+    strips    : TileStrip[]
+    
+    tiles : {
+        length : number
+        count  : number
+    }
     
     scroll: {
         x       : number,
@@ -18,23 +26,31 @@ export class Map {
     }
     
     constructor() {
-        this.container = Dom.div(document.body, 'map')
+        this.container = Dom.createDivChild(document.body, {classname: 'map'})
+        this.tiles = {length: 80, count: 5}
+        this.strips = []
+        this.padding = 10
         
         this.scroll = {
             x       : 0,
             y       : 0,
             xv      : 0,
             yv      : 0,
-            bounds  : (400 / 5 / 2),  // bounds = Size of 1 tile = (map_size / tile_count / 2)
+            bounds  : (this.tiles.length / 2),
             capture : {x: 0, y: 0},
             fun     : 0
         }
         
-        for (let i=0; i < 5; i++) {
-            var strip = Dom.div(this.container, 'tile-strip')
+        for (let i=0; i < this.tiles.count; i++) {
+            let strip = new TileStrip(this.tiles.length, this.tiles.count)
+            this.strips.push(strip)
+            this.container.appendChild(strip.element)
+            
+            /*
+            var strip = Dom.divChild(this.container, 'tile-strip')
             
             for (let t=0; t < 5; t++) {
-                let tile = Dom.div(strip, 'tile')
+                let tile = Dom.divChild(strip, 'tile')
                 
                 // Temporary tile graphics
                 let id = i+t*5
@@ -44,19 +60,8 @@ export class Map {
                 tile.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
                 tile.textContent = `${id}`
             }
+            */
         }
-    }
-    
-    indexTile(index: number): HTMLDivElement {
-        return this.container.children[index % 5].children[Math.floor(index / 5)] as HTMLDivElement
-    }
-    
-    indexStrip(index: number): HTMLDivElement {
-        return this.container.children[index] as HTMLDivElement
-    }
-    
-    setTileTexture(index: number, color: string): void {
-        this.indexTile(index).style.backgroundColor = color
     }
     
     scrolledInDir(direction: 'Up' | 'Down' | 'Left' | 'Right'): boolean {
@@ -70,31 +75,10 @@ export class Map {
         
     }
     
-    scrolledBeyondRadius(dir: 'Up' | 'Down' | 'Left' | 'Right'): boolean {
-        
-        let distance = {
-            horizontal : Math.abs(this.scroll.x),
-            vertical   : Math.abs(this.scroll.y)
-        }
-        
-        if (this.scrolledInDir(dir)) {
-            if (dir == 'Left' || dir == 'Right') 
-                return distance.horizontal > this.scroll.bounds
-            
-            if (dir == 'Up' || dir == 'Down') 
-                return distance.vertical > this.scroll.bounds
-        }
-        
-        return false
-    }
-    
     
     
     update(state: GameState) {
         let speed = 1 * state.delta
-        
-        // Radius = Size of 1 tile = (map_size / tile_count / 2)
-        let resetRadius = (400 / 5 / 2)
         
         if (state.keys.left)  this.scroll.xv =  speed
         if (state.keys.right) this.scroll.xv = -speed
@@ -145,19 +129,21 @@ export class Map {
         
         switch (side) {
             case 'Up':
-                for (let i = 0; i < 5; i++) Dom.shiftChildren(this.indexStrip(i), 'Backward')
+                for (let i = 0; i < 5; i++)
+                    this.strips[i].shiftTiles('backward')
                 break
             
             case 'Down':
-                for (let i = 0; i < 5; i++) Dom.shiftChildren(this.indexStrip(i), 'Forward')
+                for (let i = 0; i < 5; i++)
+                    this.strips[i].shiftTiles('forward')
                 break
             
             case 'Left':
-                Dom.shiftChildren(this.container, 'Backward')
+                Dom.shiftChildrenOf(this.container, 'backward')
                 break
                 
             case 'Right':
-                Dom.shiftChildren(this.container, 'Forward')
+                Dom.shiftChildrenOf(this.container, 'forward')
                 break
         }
         

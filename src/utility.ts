@@ -1,46 +1,74 @@
 import './styles.css'
 
+
+
 export namespace Common {
     export function randint(lower: number, upper: number): number {
         return Math.floor(Math.random()*(upper-lower) + lower)
     }
 }
 
+
+
 export namespace Dom {
+    export type Styles = {
+        classname? : string
+        left?      : number
+        top?       : number
+        width?     : number
+        height?    : number
+        color?     : string
+        text?      : string
+        texture?   : string
+    }
     
-    export function div(parent: HTMLElement | null, classname?: string): HTMLDivElement {
-        let div = document.createElement('div')
-        div.classList.add(classname!)
+    export function setStyles(element: HTMLElement, styles: Styles) {
+        if (styles.classname)
+            element.classList.add(styles.classname)
         
-        if (parent != null)
-            parent!.appendChild(div)
+        if (styles.left)
+            element.style.left = `${styles.left}`
+        
+        if (styles.top)
+            element.style.top = `${styles.top}`
+            
+        if (styles.width)
+            element.style.width  = `${styles.width}`
+        
+        if (styles.height)
+            element.style.height = `${styles.height}`
+        
+        if (styles.text)
+            element.textContent  = `${styles.text}`
+        
+        if (styles.color)
+            element.style.backgroundColor = `${styles.color}`
+    }
+    
+    export function createDiv(styles?: Styles) {
+        let div = document.createElement('div')
+        
+        if (styles)
+            Dom.setStyles(div, styles)
         
         return div
     }
     
-    export function swap(element1: HTMLElement, element2: HTMLElement): void {
-        let parent = element1.parentElement!
-        let element2Neighbor = element2.nextSibling
-        
-        parent.insertBefore(element2, element1)
-        
-        if (element2Neighbor == null)
-            parent.append(element1)
-        else
-            parent.insertBefore(element1, element2Neighbor)
+    export function createDivChild(parent: HTMLElement, styles?: Styles): HTMLDivElement {
+        let div = createDiv(styles)
+        parent.appendChild(div)
+        return div
     }
     
-    export function shiftChildren(parent: HTMLDivElement, direction: 'Forward' | 'Backward' = 'Forward'): void {
+    export function shiftChildrenOf(parent: HTMLDivElement, direction: 'forward' | 'backward' = 'forward'): void {
         switch (direction) {
-            case 'Forward':
+            case 'forward':
                 parent.insertBefore(parent.lastChild!, parent.firstChild!)
                 break
                 
-            case 'Backward':
+            case 'backward':
                 parent.appendChild(parent.firstChild!)
         }
     }
 }
-
-
 
