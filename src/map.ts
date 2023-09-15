@@ -91,7 +91,7 @@ export class Map {
     
     
     update(state: GameState) {
-        let speed = 2
+        let speed = 1 * state.delta
         
         // Radius = Size of 1 tile = (map_size / tile_count / 2)
         let resetRadius = (400 / 5 / 2)
@@ -131,9 +131,12 @@ export class Map {
                 this.shiftTiles('Up')
         }
         
-        this.scroll.fun += 10
-        this.scroll.xv = Math.sin(this.scroll.fun / 100) * 2
-        this.scroll.yv = Math.cos(this.scroll.fun / 100) * 2
+        //this.scroll.fun += 10
+        //this.scroll.xv = Math.sin(this.scroll.fun / 100) * 2
+        //this.scroll.yv = Math.cos(this.scroll.fun / 100) * 2
+        
+        this.scroll.xv = 0
+        this.scroll.yv = 0
     }
     
     

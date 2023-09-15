@@ -10,6 +10,7 @@ export interface GameState {
         left  : boolean,
         right : boolean
     }
+    delta : number
 }
 
 
@@ -29,7 +30,8 @@ export class Game {
                 down  : false,
                 left  : false,
                 right : false
-            }
+            },
+            delta: 0
         }
         
         document.addEventListener('keydown', event => this.keyCapture(event.key, true))
@@ -79,6 +81,7 @@ export class Game {
             // Capture the change in time
             now = Date.now()
             delta = now - before
+            this.state.delta = delta
             
             // Execute game updates if (change in time) > (interval).
             if (delta > interval) {
