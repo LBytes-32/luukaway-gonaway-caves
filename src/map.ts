@@ -26,10 +26,15 @@ export class Map {
     }
     
     constructor() {
-        this.container = Dom.createDivChild(document.body, {classname: 'map'})
         this.tiles = {length: 80, count: 5}
         this.strips = []
         this.padding = 10
+        
+        this.container = Dom.createDivChild(document.body, {
+            classname : 'map',
+            width     : `${this.tiles.length * this.tiles.count}px`,
+            height    : `${this.tiles.length * this.tiles.count}px`
+        })
         
         this.scroll = {
             x       : 0,

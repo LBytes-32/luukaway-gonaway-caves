@@ -26,28 +26,17 @@ html {
 }
 
 .tile {
-    width  : 100%;
-    height : calc(100% / var(--tile-count));
-    font-size: 16px;
-    color: white;
-    text-shadow: -1px 1px 0 #000,
-                  1px 1px 0 #000,
-                  1px -1px 0 #000,
-                 -1px -1px 0 #000;
-    font-weight: bolder;
+    color: rgb(103, 255, 110);
 }
 
 .map {
     display   : flex;
     position  : absolute;
     flex-wrap : wrap;
-    width     : var(--map-size);
-    height    : var(--map-size);
     z-index   : 1;
 }
 
 .tile-strip {
-    width  : calc(100% / var(--tile-count));
     display: flex;
     flex-direction: column;
 }

@@ -18,3 +18,8 @@ These records began later on in development. Not everything has been documented 
 - Added `Map.indexTile` method.
 - Added `Map.indexTile` method.
 - Removed `Map.scrolledInDir` method.
+
+#### CSS Cleanup
+- Removed most CSS calculations. Integrated into TS. This keeps the calculations much more consistent with the code.
+- Still need to remove the border's CSS calculations.
+- `Dom.Styles` numeric fields can be either string or number. Numeric values will be interpreted in pixels.

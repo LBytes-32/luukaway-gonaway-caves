@@ -9,7 +9,8 @@ export class TileStrip {
         
         // Create the strip element.
         this.element = Dom.createDiv({
-            classname: 'tile-strip'
+            classname : 'tile-strip',
+            width     : `calc(100% / ${tileCount})`
         })
         
         // Append N tiles to the strip element.
@@ -17,8 +18,8 @@ export class TileStrip {
             
             Dom.createDivChild(this.element, {
                 classname : 'tile',
-                width     : tileLength,
-                height    : tileLength,
+                width     : '100%',
+                height    : `calc(100% / ${tileCount})`
             })
         }
     }
