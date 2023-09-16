@@ -1,5 +1,5 @@
 import { Map } from "./map"
-import { Dom } from "./utility"
+import { Common, Dom } from "./utility"
 
 
 
@@ -16,13 +16,15 @@ export interface GameState {
 
 
 export class Game {
-    map    : Map
-    state  : GameState
-    border : HTMLDivElement
+    map     : Map
+    state   : GameState
+    border  : HTMLDivElement
+    toolbar : HTMLDivElement
     
     constructor(fps: number) {
         this.map = new Map()
         this.border = Dom.createDivChild(document.body, {classname: 'border'})
+        this.toolbar = Dom.createDivChild(document.body, {classname: 'toolbar'})
         
         this.state = {
             keys: {
@@ -39,6 +41,7 @@ export class Game {
         
         this.createGameLoop(fps)
         this.createBorderToggle()
+        this.createColorsButton()
     }
     
     
@@ -51,7 +54,7 @@ export class Game {
     
     private createBorderToggle() {
         let toggled = false
-        let button = Dom.createDivChild(this.border, {classname: 'button'})
+        let button = Dom.createDivChild(this.toolbar, {classname: 'button'})
         button.textContent = 'Toggle Border'
         
         button.addEventListener('click', () => {
@@ -62,6 +65,31 @@ export class Game {
             else
                 this.border.style.borderColor = 'rgba(0, 0, 0, 1)'
         })
+    }
+    
+    
+    
+    private createColorsButton() {
+        let button = Dom.createDivChild(this.toolbar, {classname: 'button'})
+        button.textContent = 'Generate Colors'
+        
+        button.addEventListener('click', () => {
+            let count = this.map.tiles.count ** 2
+            let row: number, col: number
+            
+            for (let i = 0; i < count; i++) {
+                col = Math.floor(i % this.map.tiles.count)
+                row = Math.floor(i / this.map.tiles.count)
+                
+                let r = i * 10 + Common.randint(1, 5) * 3
+                let g = i * 10 + Common.randint(1, 5) * 3
+                let b = i * 10 + Common.randint(1, 5) * 3
+                
+                this.map.indexTile(row, col).style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+            }
+            
+        })
+        
     }
     
     

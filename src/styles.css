@@ -5,19 +5,21 @@ html {
     --map-padding : 10px;
 }
 
+.toolbar {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    background-color: black;
+}
+
 .button {
-    position: relative;
-    border: solid;
-    left: -30%;
-    top: -40%;
-    width: 120px;
+    width: 160px;
     text-align: center;
-    border-width: 1px;
     border-radius: 3px;
-    background-color: rgb(255, 250, 235);
-    padding: 1%;
-    margin: 5%;
-    filter: drop-shadow(2px 2px 2px rgba(22, 22, 22, 0.452));
+    color: white;
+    margin-left: 5px;
+    padding: 5px;
+    background-color: rgb(49, 49, 49);
     font-size: 12px;
     user-select: none;
     cursor: pointer;

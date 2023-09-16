@@ -1,8 +1,9 @@
 import { Dom } from "./utility"
 
 
+
 export class TileStrip {
-    element : HTMLDivElement
+    element    : HTMLDivElement
     
     constructor(tileLength: number, tileCount: number) {
         
@@ -18,8 +19,6 @@ export class TileStrip {
                 classname : 'tile',
                 width     : tileLength,
                 height    : tileLength,
-                color     : 'red',
-                text      : 'Hi'
             })
         }
     }

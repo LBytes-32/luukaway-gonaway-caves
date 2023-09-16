@@ -2,7 +2,7 @@
 ### Notice
 These records began later on in development. Not everything has been documented to the extend I would've preferred.
 
-### Commit: Refactored Tile-Strips
+#### Refactored Tile-Strips
 - Added `createDivChild` function.
 - Added `createDiv` function.
 - Added `padding`, `strips`, and `tiles` to the `Map` class.
@@ -10,3 +10,9 @@ These records began later on in development. Not everything has been documented 
 - Removed unnecessary `Map` methods.
 - Added the `tiles.ts` file.
 - Removed `Dom.swap` function.
+
+#### Improved Demo UI
+- Added a "generate colors" button.
+- Added a toolbar.
+- Updated CSS.
+- Added `Map.indexTile` method.

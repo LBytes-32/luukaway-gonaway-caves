@@ -45,22 +45,6 @@ export class Map {
             let strip = new TileStrip(this.tiles.length, this.tiles.count)
             this.strips.push(strip)
             this.container.appendChild(strip.element)
-            
-            /*
-            var strip = Dom.divChild(this.container, 'tile-strip')
-            
-            for (let t=0; t < 5; t++) {
-                let tile = Dom.divChild(strip, 'tile')
-                
-                // Temporary tile graphics
-                let id = i+t*5
-                let r = Math.floor((id / 30 * 255))
-                let g = Math.floor((id / 30 * 255))
-                let b = Math.floor((id / 30 * 255))
-                tile.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
-                tile.textContent = `${id}`
-            }
-            */
         }
     }
     
@@ -75,7 +59,9 @@ export class Map {
         
     }
     
-    
+    indexTile(row: number, column: number): HTMLDivElement {
+        return this.strips[column].element.children[row] as HTMLDivElement
+    }
     
     update(state: GameState) {
         let speed = 1 * state.delta
