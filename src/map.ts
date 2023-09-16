@@ -48,17 +48,6 @@ export class Map {
         }
     }
     
-    scrolledInDir(direction: 'Up' | 'Down' | 'Left' | 'Right'): boolean {
-        
-        switch (direction) {
-            case 'Up'    : return this.scroll.y < 0
-            case 'Down'  : return this.scroll.y > 0
-            case 'Left'  : return this.scroll.x < 0
-            case 'Right' : return this.scroll.x > 0
-        }
-        
-    }
-    
     indexTile(row: number, column: number): HTMLDivElement {
         return this.strips[column].element.children[row] as HTMLDivElement
     }

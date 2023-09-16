@@ -16,3 +16,5 @@ These records began later on in development. Not everything has been documented 
 - Added a toolbar.
 - Updated CSS.
 - Added `Map.indexTile` method.
+- Added `Map.indexTile` method.
+- Removed `Map.scrolledInDir` method.
