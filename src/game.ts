@@ -59,7 +59,7 @@ export class Game {
             toggled = !toggled
             
             if (toggled)
-                this.map.border.style.borderColor = 'rgba(0, 0, 0, 0.3)'
+                this.map.border.style.borderColor = 'rgba(0, 0, 0, 0)'
             else
                 this.map.border.style.borderColor = 'rgba(0, 0, 0, 1)'
         })
@@ -88,6 +88,7 @@ export class Game {
             
         })
         
+        button.click()
     }
     
     

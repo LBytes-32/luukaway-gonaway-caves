@@ -29,3 +29,6 @@ These records began later on in development. Not everything has been documented 
 - CSS expressions are now calculated in the `Map` constructor.
 - `styles.css` has been heavily simplified.
 - `Dom.Styles` no longer supports numerics. This made things unnecessarily complicated.
+
+#### Lovely CSS
+- Improved look of CSS.
