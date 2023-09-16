@@ -4,7 +4,15 @@
     width            : 100%;
     display          : flex;
     background-color : black;
-    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.418));
+    filter           : drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.418));
+    align-items: center;
+}
+
+.title {
+    color: white;
+    height: 100%;
+    margin-right: 5pt;
+    font-weight: bolder;
 }
 
 .button {
@@ -12,7 +20,7 @@
     border-radius    : 3px;
     font-size        : 12px;
     text-align       : center;
-    background-color : rgb(49, 49, 49);
+    background-color : rgb(36, 36, 36);
     color            : white;
     margin           : 5px;
     padding          : 5px;
@@ -45,5 +53,6 @@
     border-radius : 10px;
     z-index       : 999;
     filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.418));
+    color: white;
 }
 

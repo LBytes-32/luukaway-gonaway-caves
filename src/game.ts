@@ -22,7 +22,15 @@ export class Game {
     
     constructor(fps: number) {
         this.map = new Map()
-        this.toolbar = Dom.createDivChild(document.body, {classname: 'toolbar'})
+        
+        this.toolbar = Dom.createDivChild(document.body, {
+            classname : 'toolbar'
+        })
+        
+        Dom.createDivChild(this.toolbar, {
+            classname : 'title',
+            text      : 'Scroll! Shifti! Demo!'
+        })
         
         this.state = {
             keys: {
@@ -58,10 +66,16 @@ export class Game {
         button.addEventListener('click', () => {
             toggled = !toggled
             
-            if (toggled)
+            if (toggled) {
                 this.map.border.style.borderColor = 'rgba(0, 0, 0, 0)'
-            else
+                this.map.border.style.backgroundColor = `rgba(0, 0, 0, 0.3)`
+                this.map.border.style.zIndex = '0'
+            }
+            else {
                 this.map.border.style.borderColor = 'rgba(0, 0, 0, 1)'
+                this.map.border.style.backgroundColor = `rgba(0, 0, 0, 0)`
+                this.map.border.style.zIndex = '999'
+            }
         })
     }
     
