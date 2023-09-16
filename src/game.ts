@@ -18,12 +18,10 @@ export interface GameState {
 export class Game {
     map     : Map
     state   : GameState
-    border  : HTMLDivElement
     toolbar : HTMLDivElement
     
     constructor(fps: number) {
         this.map = new Map()
-        this.border = Dom.createDivChild(document.body, {classname: 'border'})
         this.toolbar = Dom.createDivChild(document.body, {classname: 'toolbar'})
         
         this.state = {
@@ -61,9 +59,9 @@ export class Game {
             toggled = !toggled
             
             if (toggled)
-                this.border.style.borderColor = 'rgba(0, 0, 0, 0.3)'
+                this.map.border.style.borderColor = 'rgba(0, 0, 0, 0.3)'
             else
-                this.border.style.borderColor = 'rgba(0, 0, 0, 1)'
+                this.map.border.style.borderColor = 'rgba(0, 0, 0, 1)'
         })
     }
     

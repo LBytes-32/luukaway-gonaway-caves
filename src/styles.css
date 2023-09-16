@@ -1,28 +1,22 @@
 
-html {
-    --map-size    : 400px;
-    --tile-count  : 5;
-    --map-padding : 10px;
-}
-
 .toolbar {
-    padding: 10px;
-    width: 100%;
-    display: flex;
-    background-color: black;
+    padding          : 10px;
+    width            : 100%;
+    display          : flex;
+    background-color : black;
 }
 
 .button {
-    width: 160px;
-    text-align: center;
-    border-radius: 3px;
-    color: white;
-    margin-left: 5px;
-    padding: 5px;
-    background-color: rgb(49, 49, 49);
-    font-size: 12px;
-    user-select: none;
-    cursor: pointer;
+    width            : 160px;
+    border-radius    : 3px;
+    font-size        : 12px;
+    text-align       : center;
+    background-color : rgb(49, 49, 49);
+    color            : white;
+    margin           : 5px;
+    padding          : 5px;
+    user-select      : none;
+    cursor           : pointer;
 }
 
 .tile {
@@ -37,39 +31,16 @@ html {
 }
 
 .tile-strip {
-    display: flex;
-    flex-direction: column;
+    display        : flex;
+    flex-direction : column;
 }
 
 .border {
-    position     : absolute;
-
-    border-color : black;
-    box-sizing   : border-box;  /*/ The border must be inward, other than outward. /*/
-    border       : solid;
+    position      : absolute;
+    border-color  : black;
+    box-sizing    : border-box;  /*/ The border must be inward, other than outward. /*/
+    border        : solid;
     border-radius : 10px;
-    z-index      : 999;
-    
-      /*\
-     |   |   This element's border will appear above the map. The empty background will reveal the map.
-     |   |     - The empty space must be able to show AT LEAST (n - 1) TILES!
-     |   |     - The border width must be able to HIDE 1 FULL TILE!
-     |   |     - The element's width and height must take into account (2*border size) (Since the border goes inward)
-      \*/  
-    
-                /* border_width = (map_size / tile_count) + map_padding */
-    border-width : calc(var(--map-size) / var(--tile-count) + var(--map-padding));
-    
-                /* width = (map_size - border_width) + (border_width * 2) */
-    width        : calc(var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2);
-    
-                /* height = (map_size - border-width) + (border_width * 2) */
-    height       : calc(var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2);
-    
-                /* left = 50% - (width / 2) */
-    left         : calc(50% - (var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2) / 2);
-    
-                /* top = 45% - (height / 2) */
-    top          : calc(50% - (var(--map-size) - (var(--map-size) / var(--tile-count) + var(--map-padding)) + (var(--map-size) / var(--tile-count) + var(--map-padding)) * 2) / 2);
+    z-index       : 999;
 }
 

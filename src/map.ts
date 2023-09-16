@@ -7,6 +7,7 @@ import { TileStrip } from "./tiles"
 
 export class Map {
     container : HTMLDivElement
+    border    : HTMLDivElement
     padding   : number
     strips    : TileStrip[]
     
@@ -30,10 +31,23 @@ export class Map {
         this.strips = []
         this.padding = 10
         
+        let mapLen      = this.tiles.length * this.tiles.count
+        let borderThick = this.tiles.length + this.padding
+        let borderLen   = (mapLen - borderThick) + (borderThick * 2)
+        
         this.container = Dom.createDivChild(document.body, {
             classname : 'map',
-            width     : `${this.tiles.length * this.tiles.count}px`,
-            height    : `${this.tiles.length * this.tiles.count}px`
+            width     : `${mapLen}px`,
+            height    : `${mapLen}px`
+        })
+        
+        this.border = Dom.createDivChild(document.body, {
+            classname   : 'border',
+            borderWidth : `${borderThick}px`,
+            width       : `${borderLen}px`,
+            height      : `${borderLen}px`,
+            left        : `calc(50% - ${borderLen}px / 2)`,
+            top         : `calc(50% - ${borderLen}px / 2)`
         })
         
         this.scroll = {
@@ -67,8 +81,8 @@ export class Map {
         
         this.scrollUpdate()
         
-        this.container.style.left = `calc(${this.scroll.x}px + 50% - var(--map-size))`
-        this.container.style.top  = `calc(${this.scroll.y}px + 50% - var(--map-size))`
+        this.container.style.left = `calc(${this.scroll.x}px + 50% - ${this.tiles.length * this.tiles.count}px)`
+        this.container.style.top  = `calc(${this.scroll.y}px + 50% - ${this.tiles.length * this.tiles.count}px)`
     }
     
     

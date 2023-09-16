@@ -23,3 +23,9 @@ These records began later on in development. Not everything has been documented 
 - Removed most CSS calculations. Integrated into TS. This keeps the calculations much more consistent with the code.
 - Still need to remove the border's CSS calculations.
 - `Dom.Styles` numeric fields can be either string or number. Numeric values will be interpreted in pixels.
+
+#### CSS Border Cleanup
+- Moved the border element from `Game` to `Map`.
+- CSS expressions are now calculated in the `Map` constructor.
+- `styles.css` has been heavily simplified.
+- `Dom.Styles` no longer supports numerics. This made things unnecessarily complicated.
