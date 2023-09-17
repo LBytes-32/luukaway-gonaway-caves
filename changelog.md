@@ -33,9 +33,15 @@ These records began later on in development. Not everything has been documented 
 #### Lovely CSS
 - Improved look of CSS.
 
-#### Smooth Scrolling Update
+#### Smooth Scrolling and Beautiful
 - Added a title in the toolbar.
 - Toggled border is now prettier!
 - Precision of `x` and `y` is no longer tampered with. Screen coordinates are now stored separately, in `xScreen` and `yScreen`. Smooth velocity is now possible!
 - Map shifting is once again based on conditional logic. However, instead of a hard set to the other side, it is now accumulated, allowing decimal precision to persist.
 - Added title CSS class.
+
+#### Small Fixes
+- Changed the title.
+- Improved consistency with calculations.
+- Removed the "tile length" parameter when constructing a `TileStrip`. It was unnecessary.
+- Changed map colors and slow-down velocity.

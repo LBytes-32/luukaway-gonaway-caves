@@ -59,7 +59,7 @@ export namespace Dom {
         return div
     }
     
-    export function createDivChild(parent: HTMLElement, styles?: Styles): HTMLDivElement {
+    export function createChildDiv(parent: HTMLElement, styles?: Styles): HTMLDivElement {
         let div = createDiv(styles)
         parent.appendChild(div)
         return div

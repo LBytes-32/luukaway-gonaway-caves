@@ -23,13 +23,13 @@ export class Game {
     constructor(fps: number) {
         this.map = new Map()
         
-        this.toolbar = Dom.createDivChild(document.body, {
+        this.toolbar = Dom.createChildDiv(document.body, {
             classname : 'toolbar'
         })
         
-        Dom.createDivChild(this.toolbar, {
+        Dom.createChildDiv(this.toolbar, {
             classname : 'title',
-            text      : 'Scroll! Shifti! Demo!'
+            text      : 'Scrolly Shifty Demo'
         })
         
         this.state = {
@@ -60,7 +60,7 @@ export class Game {
     
     private createBorderToggle() {
         let toggled = false
-        let button = Dom.createDivChild(this.toolbar, {classname: 'button'})
+        let button = Dom.createChildDiv(this.toolbar, {classname: 'button'})
         button.textContent = 'Toggle Border'
         
         button.addEventListener('click', () => {
@@ -82,22 +82,26 @@ export class Game {
     
     
     private createColorsButton() {
-        let button = Dom.createDivChild(this.toolbar, {classname: 'button'})
+        let button = Dom.createChildDiv(this.toolbar, {classname: 'button'})
         button.textContent = 'Generate Colors'
         
         button.addEventListener('click', () => {
             let count = this.map.tiles.count ** 2
-            let row: number, col: number
+            let row: number
+            let col: number
+            let color = [0,0,0]
             
             for (let i = 0; i < count; i++) {
                 col = Math.floor(i % this.map.tiles.count)
                 row = Math.floor(i / this.map.tiles.count)
                 
-                let r = i * 10 + Common.randint(1, 5) * 3
-                let g = i * 10 + Common.randint(1, 5) * 3
-                let b = i * 10 + Common.randint(1, 5) * 3
+                color[0] = (Math.cos(col * row / 30) + 1) / 3
+                color[1] = (Math.cos(col * row / 12) + 1) / 7
+                color[2] = (Math.cos(col * row / 40) + 1) / 1
                 
-                this.map.indexTile(row, col).style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+                console.log(color.map((v) => v))
+                
+                this.map.indexTile(row, col).style.backgroundColor = `rgb(${Math.floor(255*color[0])}, ${Math.floor(255*color[1])}, ${Math.floor(255*color[2])})`
             }
             
         })

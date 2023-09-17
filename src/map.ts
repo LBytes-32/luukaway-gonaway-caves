@@ -29,7 +29,7 @@ export class Map {
     }
     
     constructor() {
-        this.tiles = {length: 80, count: 5}
+        this.tiles = {length: 30, count: 15}
         this.strips = []
         this.padding = 10
         
@@ -37,13 +37,13 @@ export class Map {
         let borderThick = this.tiles.length + this.padding
         let borderLen   = (mapLen - borderThick) + (borderThick * 2)
         
-        this.container = Dom.createDivChild(document.body, {
+        this.container = Dom.createChildDiv(document.body, {
             classname : 'map',
             width     : `${mapLen}px`,
             height    : `${mapLen}px`
         })
         
-        this.border = Dom.createDivChild(document.body, {
+        this.border = Dom.createChildDiv(document.body, {
             classname   : 'border',
             borderWidth : `${borderThick}px`,
             width       : `${borderLen}px`,
@@ -65,7 +65,7 @@ export class Map {
         }
         
         for (let i=0; i < this.tiles.count; i++) {
-            let strip = new TileStrip(this.tiles.length, this.tiles.count)
+            let strip = new TileStrip(this.tiles.count)
             this.strips.push(strip)
             this.container.appendChild(strip.element)
         }
@@ -127,8 +127,8 @@ export class Map {
             this.shiftTiles('right')
         }
         
-        this.scroll.xv /= 1.2
-        this.scroll.yv /= 1.2
+        this.scroll.xv /= 1.05
+        this.scroll.yv /= 1.05
         
         this.scroll.xScreen = Math.floor(this.scroll.x) + this.getMapLength()/2
         this.scroll.yScreen = Math.floor(this.scroll.y) + this.getMapLength()/2
@@ -140,12 +140,12 @@ export class Map {
         
         switch (side) {
             case 'up':
-                for (let i = 0; i < 5; i++)
+                for (let i = 0; i < this.tiles.count; i++)
                     this.strips[i].shiftTiles('backward')
                 break
             
             case 'down':
-                for (let i = 0; i < 5; i++)
+                for (let i = 0; i < this.tiles.count; i++)
                     this.strips[i].shiftTiles('forward')
                 break
             
