@@ -29,7 +29,7 @@ export class Map {
     }
     
     constructor() {
-        this.tiles = {length: 30, count: 15}
+        this.tiles = {length: 10, count: 20}
         this.strips = []
         this.padding = 10
         
@@ -40,7 +40,9 @@ export class Map {
         this.container = Dom.createChildDiv(document.body, {
             classname : 'map',
             width     : `${mapLen}px`,
-            height    : `${mapLen}px`
+            height    : `${mapLen}px`,
+            left      : `calc(50% - ${mapLen}px)`,
+            top       : `calc(50% - ${mapLen}px)`
         })
         
         this.border = Dom.createChildDiv(document.body, {
@@ -89,8 +91,7 @@ export class Map {
         
         this.scrollUpdate()
         
-        this.container.style.left = `calc(${this.scroll.xScreen}px + 50% - ${this.tiles.length * this.tiles.count}px)`
-        this.container.style.top  = `calc(${this.scroll.yScreen}px + 50% - ${this.tiles.length * this.tiles.count}px)`
+        this.container.style.transform = `translate(${this.scroll.xScreen}px, ${this.scroll.yScreen}px)`
     }
     
     private hasPassedBound(side: 'top' | 'bottom' | 'left' | 'right', value: number): boolean {
@@ -130,8 +131,8 @@ export class Map {
         this.scroll.xv /= 1.05
         this.scroll.yv /= 1.05
         
-        this.scroll.xScreen = Math.floor(this.scroll.x) + this.getMapLength()/2
-        this.scroll.yScreen = Math.floor(this.scroll.y) + this.getMapLength()/2
+        this.scroll.xScreen = this.scroll.x + this.getMapLength()/2
+        this.scroll.yScreen = this.scroll.y + this.getMapLength()/2
     }
     
     

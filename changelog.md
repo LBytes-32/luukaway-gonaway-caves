@@ -45,3 +45,7 @@ These records began later on in development. Not everything has been documented 
 - Improved consistency with calculations.
 - Removed the "tile length" parameter when constructing a `TileStrip`. It was unnecessary.
 - Changed map colors and slow-down velocity.
+
+#### Migrated to CSS Transform
+- Map offset relies on "transform" instead of "absolute position".
+- Scroll coordinates no longer need to be integers.
