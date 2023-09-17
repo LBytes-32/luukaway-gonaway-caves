@@ -1,20 +1,23 @@
 import { Map } from "./map"
-import { Common, Dom } from "./utility"
+import { Dom } from "./utility"
 
 
 
-export interface GameState {
+/** GameState captures user input and change in time between frames. */
+export type GameState = {
     keys: {
         up    : boolean,
         down  : boolean,
         left  : boolean,
         right : boolean
     }
-    delta : number
+    delta     : number,
+    framerate : number
 }
 
 
 
+/** Class that maintains user input and framerate. */
 export class Game {
     map     : Map
     state   : GameState
@@ -23,15 +26,18 @@ export class Game {
     constructor(fps: number) {
         this.map = new Map()
         
+        // Create the toolbar element.
         this.toolbar = Dom.createChildDiv(document.body, {
             classname : 'toolbar'
         })
         
+        // Create the title element.
         Dom.createChildDiv(this.toolbar, {
             classname : 'title',
             text      : 'Scrolly Shifty Demo'
         })
         
+        // Setup the game state.
         this.state = {
             keys: {
                 up    : false,
@@ -39,51 +45,53 @@ export class Game {
                 left  : false,
                 right : false
             },
-            delta: 0
+            delta     : 0,
+            framerate : 0
         }
         
+        // Create event listeners to capture input.
         document.addEventListener('keydown', event => this.keyCapture(event.key, true))
         document.addEventListener('keyup', event => this.keyCapture(event.key, false))
         
-        this.createGameLoop(fps)
+        // Create the game loop. The callback is used as the update function.
+        this.createGameLoop(fps, () => {
+            this.map.update(this.state)
+        })
+        
+        // Create interactive buttons in the toolbar.
         this.createBorderToggle()
         this.createColorsButton()
     }
     
     
     
-    private update() {
-        this.map.update(this.state)
-    }
-    
-    
-    
+    /** Creates a toolbar button to toggle the map's borders. */
     private createBorderToggle() {
         let toggled = false
-        let button = Dom.createChildDiv(this.toolbar, {classname: 'button'})
-        button.textContent = 'Toggle Border'
+        
+        let button = Dom.createChildDiv(this.toolbar, {
+            classname : 'button',
+            text      : 'Toggle Border'
+        })
         
         button.addEventListener('click', () => {
             toggled = !toggled
             
-            if (toggled) {
-                this.map.border.style.borderColor = 'rgba(0, 0, 0, 0)'
-                this.map.border.style.backgroundColor = `rgba(0, 0, 0, 0.3)`
-                this.map.border.style.zIndex = '0'
-            }
-            else {
-                this.map.border.style.borderColor = 'rgba(0, 0, 0, 1)'
-                this.map.border.style.backgroundColor = `rgba(0, 0, 0, 0)`
-                this.map.border.style.zIndex = '999'
-            }
+            if (toggled)
+                this.map.border.classList.add('border-revealing')
+            else
+                this.map.border.classList.remove('border-revealing')
         })
     }
     
     
     
+    /** Creates a toolbar button to generate colors on the map. */
     private createColorsButton() {
-        let button = Dom.createChildDiv(this.toolbar, {classname: 'button'})
-        button.textContent = 'Generate Colors'
+        let button = Dom.createChildDiv(this.toolbar, {
+            classname : 'button',
+            text      : 'Generate Colors'
+        })
         
         button.addEventListener('click', () => {
             let count = this.map.tiles.count ** 2
@@ -103,45 +111,46 @@ export class Game {
                 
                 this.map.indexTile(row, col).style.backgroundColor = `rgb(${Math.floor(255*color[0])}, ${Math.floor(255*color[1])}, ${Math.floor(255*color[2])})`
             }
-            
         })
         
+        // Simulate a button click to trigger the color generation.
         button.click()
     }
     
     
     
-    private createGameLoop(fps: number) {
+    /** Create the game loop using requestAnimationFrame. FPS must be provided. */
+    private createGameLoop(fps: number, callback: () => void) {
         // Credit to elundmark for requestAnimationFrame optimization.
         // https://gist.github.com/elundmark/38d3596a883521cb24f5
-
-        let now      = Date.now()
-        let before   = Date.now()
-        let interval = 1000 / fps
-        let delta    = 0
+        
+        const INTERVAL = 1000 / fps
+        
+        let now    = Date.now()
+        let before = Date.now()
         
         let update = () => {
             requestAnimationFrame(update)
             
             // Capture the change in time
             now = Date.now()
-            delta = now - before
-            this.state.delta = delta
+            this.state.delta = now - before
+            this.state.framerate = Math.floor(1000 / this.state.delta)
             
             // Execute game updates if (change in time) > (interval).
-            if (delta > interval) {
-                this.update()
-                
-                // Capture the old time
-                before = now - (delta % interval)
+            if (this.state.delta >= INTERVAL) {
+                callback()
+                before = now - (this.state.delta % INTERVAL)
             }
         }
         
+        // Initialize the loop.
         requestAnimationFrame(update)
     }
     
     
     
+    /** Flag the specified key as pressed (true) or not pressed (false). */
     private keyCapture(key: string, flag: boolean): void {
         
         switch (key) {

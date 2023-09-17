@@ -49,3 +49,9 @@ These records began later on in development. Not everything has been documented 
 #### Migrated to CSS Transform
 - Map offset relies on "transform" instead of "absolute position".
 - Scroll coordinates no longer need to be integers.
+
+#### Game Manager Adjustments
+- `Game.State` now captures the framerate.
+- Added new `border-revealing` style. This cleans up code in the "Toggle Border" event listener.
+- `Game.createGameLoop` now receives a callback as an update function.
+- Added various comments in the `game.ts` file.
